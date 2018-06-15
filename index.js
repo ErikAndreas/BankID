@@ -12,10 +12,11 @@ const ao = new https.Agent({
 }); 
 
 app.get('/auth', async (req, res) => {
+    console.log(req.connection.remoteAddress);
     let data = await fetch('https://appapi2.test.bankid.com/rp/v5/auth', {
         method: 'POST',
         body: JSON.stringify({
-            "personalNumber":"197905310517",
+            "personalNumber":req.query.pnr,
             "endUserIp": "10.56.40.158"
         }),
         headers: {

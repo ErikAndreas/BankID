@@ -4,5 +4,5 @@ Based on BankID relying party guidelines v3.0
 * Create .cer file from test server certificate ([7 Test Environment](https://www.bankid.com/assets/bankid/rp/bankid-relying-party-guidelines-v3.0.pdf))
 * Download SSL cert (RP cert for test *.pfx)
 ## Run
-* endpoint /auth initiates authentication and outputs orderRef
+* endpoint /auth?pnr=19YYMMDDNNNN initiates authentication and outputs orderRef
 * endpoint /collect?or=orderRef (output from /auth) checks status and returns completionData on complete
