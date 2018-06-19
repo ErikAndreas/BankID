@@ -28,14 +28,22 @@ app.get('/auth', async (req, res) => {
     console.log(data);
     let orderRef;
     if (data.orderRef) orderRef = data.orderRef;
-    res.json('auth initiated, please open bankid to authenticate');
+    res.json('auth initiated, please open bankid to authenticate ' + orderRef);
 });
 
 app.get('/collect', async (req, res) => {
+    //  RP should keep on calling collect every two seconds as long as status indicates pending. RP must abort if status indicates failed
+    let orderRef = req.query.or;
+    let data = await callCollect(orderRef);
+    console.log(data);
+    res.json({"status":data.status, "completionData": data.completionData})
+})
+
+const callCollect = async (orderRef) => {
     let data = await fetch('https://appapi2.test.bankid.com/rp/v5/collect', {
         method: 'POST',
         body: JSON.stringify({
-            "orderRef": req.query.or
+            "orderRef": orderRef
         }),
         headers: {
             'content-type': 'application/json'
@@ -44,8 +52,35 @@ app.get('/collect', async (req, res) => {
     });
     data = await data.json();
     console.log(data);
-    res.json({"status":data.status, "completionData": data.completionData})
-})
+    if (data.hintCode) {
+        // call again for non failed statuses
+        if (data.hintCode != 'expiredTransaction' && 
+            data.hintCode != 'certificateErr' &&
+            data.hintCode != 'userCancel' &&
+            data.hintCode != 'cancelled' &&
+            data.hintCode != 'startFailed') {
+            console.log('set timeout');
+            return await sleep(callCollect, orderRef);
+            //console.log('after sleep', data);
+        } else {
+            // fail, return
+            console.log('fail, return');
+            return data;
+        }
+    } else {
+        console.log('return data', data);
+        return data;
+    }
+    
+};
+
+function timeout(ms) {
+    return new Promise(resolve => setTimeout(resolve, ms));
+}
+async function sleep(fn, ...args) {
+    await timeout(2000);
+    return await fn(...args);
+}
 
 const port = process.env.PORT || 3000;
 app.listen(port, () => console.log(`App listening on port ${port}!`));
