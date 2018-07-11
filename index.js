@@ -54,11 +54,11 @@ const callCollect = async (orderRef) => {
     console.log(data);
     if (data.hintCode) {
         // call again for non failed statuses
-        if (data.hintCode != 'expiredTransaction' && 
-            data.hintCode != 'certificateErr' &&
-            data.hintCode != 'userCancel' &&
-            data.hintCode != 'cancelled' &&
-            data.hintCode != 'startFailed') {
+        if (data.hintCode != 'expiredTransaction' && // msg RFA8
+            data.hintCode != 'certificateErr' && // msg RFA16
+            data.hintCode != 'userCancel' && // msg RFA6
+            data.hintCode != 'cancelled' && // msg RFA3
+            data.hintCode != 'startFailed') { // msg RFA17
             console.log('set timeout');
             return await sleep(callCollect, orderRef);
             //console.log('after sleep', data);
