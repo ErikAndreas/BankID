@@ -64,7 +64,7 @@ const callCollect = async (orderRef) => {
             //console.log('after sleep', data);
         } else {
             // fail, return
-            console.log('fail, return');
+            console.log('fail, return'); // msg RFA22
             return data;
         }
     } else {
