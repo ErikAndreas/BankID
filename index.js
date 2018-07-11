@@ -17,7 +17,7 @@ app.get('/auth', async (req, res) => {
         method: 'POST',
         body: JSON.stringify({
             "personalNumber":req.query.pnr,
-            "endUserIp": "10.56.40.158"
+            "endUserIp": "10.56.40.158" // TODO: must be client ip as seen been by RP
         }),
         headers: {
             'content-type': 'application/json'
@@ -52,7 +52,7 @@ const callCollect = async (orderRef) => {
     });
     data = await data.json();
     console.log(data);
-    if (data.hintCode) {
+    if (data.hintCode) { // TODO: must abort if status indicates failed
         // call again for non failed statuses
         if (data.hintCode != 'expiredTransaction' && // msg RFA8
             data.hintCode != 'certificateErr' && // msg RFA16
