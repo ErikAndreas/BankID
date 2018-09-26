@@ -16,7 +16,7 @@ app.get('/auth', async (req, res) => {
     let data = await fetch('https://appapi2.test.bankid.com/rp/v5/auth', {
         method: 'POST',
         body: JSON.stringify({
-            "personalNumber":req.query.pnr,
+            "personalNumber": req.query.pnr,
             "endUserIp": "10.56.40.158" // TODO: must be client ip as seen been by RP
         }),
         headers: {
