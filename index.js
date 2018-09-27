@@ -9,6 +9,7 @@ const ao = new https.Agent({
     pfx: require('fs').readFileSync('./FPTestcert2_20150818_102329.pfx'),
     passphrase: 'qwerty123',
     ca: require('fs').readFileSync('./BankID.cer')
+    //rejectUnauthorized: false // works if not presenting a CA cert but BAD! - we'd risk MITM
 }); 
 
 app.get('/auth', async (req, res) => {
