@@ -7,7 +7,7 @@ Based on BankID relying party guidelines v3.0
 * Configure BankID client https://demo.bankid.com/Konfigurera.aspx
 * Login with code (from email)
 * Issue bankid for test  
-* Create .cer file from test server certificate ([7 Test Environment](https://www.bankid.com/assets/bankid/rp/bankid-relying-party-guidelines-v3.0.pdf))
+* Create .cer file from test server certificate ([7 Test Environment](https://www.bankid.com/assets/bankid/rp/bankid-relying-party-guidelines-v3.2.2.pdf))
 * Download SSL cert (RP cert for test *.pfx)
 * .cer and .pfx are included in this repo, no real need to do the two points above really
 * >npm install
